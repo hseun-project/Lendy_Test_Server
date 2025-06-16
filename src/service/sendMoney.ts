@@ -17,8 +17,16 @@ export const sendMoney = async (req: AuthenticatedRequest, res: Response<BasicRe
         message: '올바르지 않은 입력값'
       });
     }
+    if (sendUserId === receiveUserId) {
+      return res.status(409).json({
+        message: '동일 계좌 간 송금 불가'
+      });
+    }
 
-    if (sendUserId !== userId) {
+    const bigintSendUserId = BigInt(sendUserId);
+    const bigintReceiveUserId = BigInt(receiveUserId);
+
+    if (bigintSendUserId !== userId) {
       return res.status(409).json({
         message: '송금 권한 없음'
       });
@@ -26,7 +34,7 @@ export const sendMoney = async (req: AuthenticatedRequest, res: Response<BasicRe
 
     const sendUser = await prisma.bank.findUnique({
       select: { id: true, money: true },
-      where: { userId: sendUserId }
+      where: { userId: bigintSendUserId }
     });
     if (!sendUser) {
       return res.status(404).json({
@@ -40,8 +48,8 @@ export const sendMoney = async (req: AuthenticatedRequest, res: Response<BasicRe
     }
 
     const receiveUser = await prisma.bank.findUnique({
-      select: { id: true, money: true },
-      where: { userId: receiveUserId }
+      select: { id: true },
+      where: { userId: bigintReceiveUserId }
     });
     if (!receiveUser) {
       return res.status(404).json({
@@ -53,13 +61,13 @@ export const sendMoney = async (req: AuthenticatedRequest, res: Response<BasicRe
       await tx.bank.update({
         where: { id: sendUser.id },
         data: {
-          money: sendUser.money - money
+          money: { decrement: money }
         }
       });
       await tx.bank.update({
         where: { id: receiveUser.id },
         data: {
-          money: receiveUser.money + money
+          money: { increment: money }
         }
       });
     });
