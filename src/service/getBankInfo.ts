@@ -8,7 +8,7 @@ export const getBankInfo = async (req: AuthenticatedRequest, res: Response<GetBa
     const userId = req.userId;
     if (!userId) {
       return res.status(401).json({
-        message: '서버 오류 발생'
+        message: '토큰 검증 실패'
       });
     }
 
