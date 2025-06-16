@@ -11,8 +11,8 @@ export const accountBankNumber = async (req: AuthenticatedRequest, res: Response
       });
     }
 
-    const { bankName, bankNumber, bankNumberMasked, apiTranId, alias } = req.body;
-    if (!bankName || !bankNumber || !bankNumberMasked || !apiTranId || !alias) {
+    const { bankName, bankNumber, bankNumberMasked, apiTranId } = req.body;
+    if (!bankName || !bankNumber || !bankNumberMasked || !apiTranId) {
       return res.status(400).json({
         message: '올바르지 않은 입력값'
       });
