@@ -18,5 +18,8 @@ app.post('/', apiLimit, verifyJWT, (req: AuthenticatedRequest, res: Response) =>
 app.patch('/', apiLimit, verifyJWT, (req: AuthenticatedRequest, res: Response) => {
   service.modifyBankNumber(req, res);
 });
+app.post('/send', apiLimit, verifyJWT, (req: AuthenticatedRequest, res: Response) => {
+  service.sendMoney(req, res);
+});
 
 export default app;
