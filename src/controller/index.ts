@@ -1,5 +1,5 @@
 import express, { Response } from 'express';
-import { getApiLimit } from '../middleware/limit';
+import { apiLimit, getApiLimit } from '../middleware/limit';
 import { verifyJWT } from '../middleware/jwt';
 import { AuthenticatedRequest } from '../types';
 import service from '../service';
@@ -11,6 +11,9 @@ app.get('/', getApiLimit, verifyJWT, (req: AuthenticatedRequest, res: Response) 
 });
 app.get('/money', getApiLimit, verifyJWT, (req: AuthenticatedRequest, res: Response) => {
   service.getBankMoney(req, res);
+});
+app.post('/', apiLimit, verifyJWT, (req: AuthenticatedRequest, res: Response) => {
+  service.accountBankNumber(req, res);
 });
 
 export default app;
