@@ -18,6 +18,13 @@ export const accountBankNumber = async (req: AuthenticatedRequest, res: Response
       });
     }
 
+    const bank = await prisma.bank.findUnique({ where: { userId: userId } });
+    if (bank) {
+      return res.status(409).json({
+        message: '이미 등록된 계좌 존재'
+      });
+    }
+
     await prisma.bank.create({
       data: {
         userId: userId,
