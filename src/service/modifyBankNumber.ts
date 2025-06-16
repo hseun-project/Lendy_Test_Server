@@ -24,7 +24,7 @@ export const modifyBankNumber = async (req: AuthenticatedRequest, res: Response<
       });
     }
 
-    const bankNumberMasked = String(bankNumber).slice(0, 6) + '********';
+    const bankNumberMasked = String(bankNumber).replace(/^(\d{6})(\d+)$/, '$1********');
 
     await prisma.bank.update({
       where: { id: bank.id },
