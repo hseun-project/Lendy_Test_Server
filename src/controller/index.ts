@@ -15,5 +15,8 @@ app.get('/money', getApiLimit, verifyJWT, (req: AuthenticatedRequest, res: Respo
 app.post('/', apiLimit, verifyJWT, (req: AuthenticatedRequest, res: Response) => {
   service.accountBankNumber(req, res);
 });
+app.patch('/', apiLimit, verifyJWT, (req: AuthenticatedRequest, res: Response) => {
+  service.modifyBankNumber(req, res);
+});
 
 export default app;
