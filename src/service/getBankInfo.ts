@@ -12,7 +12,14 @@ export const getBankInfo = async (req: AuthenticatedRequest, res: Response<GetBa
       });
     }
 
-    const bank = await prisma.bank.findUnique({ where: { userId: userId } });
+    const bank = await prisma.bank.findUnique({
+      select: {
+        bankName: true,
+        bankNumber: true,
+        bankNumberMasked: true
+      },
+      where: { userId: userId }
+    });
     if (!bank) {
       return res.status(404).json({
         message: '존재하지 않는 계좌 정보'
