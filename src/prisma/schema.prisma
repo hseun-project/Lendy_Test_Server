@@ -14,6 +14,5 @@ model Bank {
   bankNumber       String @db.VarChar(20)
   bankNumberMasked String @db.VarChar(20)
   apiTranId        String @db.VarChar(40)
-  alias            String @db.VarChar(50)
   money            Int    @default(0)
 }
