@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Bank" ADD COLUMN     "money" INTEGER NOT NULL DEFAULT 0;
